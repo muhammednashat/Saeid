@@ -7,19 +7,22 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.mnashat_dev.saeid.ui.home.HomeFragment"
-        android:label="@string/title_home"
+        android:name="com.mnashat_dev.saeid.ui.HomeFragment"
+        android:label=""
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.mnashat_dev.saeid.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_instructions"
+        android:label=""
+        android:name="com.mnashat_dev.saeid.ui.InstructionsFragment"
+
+        />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.mnashat_dev.saeid.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_whoAre"
+        android:name="com.mnashat_dev.saeid.ui.WhoAreFragment"
+        android:label=""
+        />
+
+
 </navigation>

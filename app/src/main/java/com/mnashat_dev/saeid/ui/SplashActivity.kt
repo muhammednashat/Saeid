@@ -1,12 +1,10 @@
-package com.mnashat_dev.saeid
+package com.mnashat_dev.saeid.ui
 
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import com.mnashat_dev.saeid.R
 import com.mnashat_dev.saeid.auth.AuthActivity
 
 //import com.google.firebase.auth.FirebaseAuth

@@ -15,11 +15,11 @@
 
 
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
        />
 
         <activity
-            android:name="com.mnashat_dev.saeid.SplashActivity"
+            android:name="com.mnashat_dev.saeid.ui.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

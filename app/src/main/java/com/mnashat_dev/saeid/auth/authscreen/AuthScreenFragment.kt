@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.mnashat_dev.saeid.R
 import com.mnashat_dev.saeid.databinding.FragmentAuthScreenBinding
-import com.mnashat_dev.saeid.BaseFragment
+import com.mnashat_dev.saeid.base.BaseFragment
 
 
 class AuthScreenFragment : BaseFragment() {

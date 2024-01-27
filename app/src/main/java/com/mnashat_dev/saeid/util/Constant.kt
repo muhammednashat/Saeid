@@ -1,6 +1,7 @@
 package com.mnashat_dev.saeid.util
 
-const val PatientType = "Patient"
-const val adminType = "Admin"
-const val CaregiverType = "Caregiver"
-const val UserName = "userName"
+const val USER_NAME = "userName"
+const val EMAIL = "email"
+const val USER_PHONE = "userCare"
+const val CARE_PHONE = "carePhone"
+const val IS_LOGIN = "isLogin"

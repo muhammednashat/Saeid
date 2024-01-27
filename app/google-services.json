@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "345204745083",
+    "project_id": "saeid-4e597",
+    "storage_bucket": "saeid-4e597.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345204745083:android:b05b664545a3cdfe0113de",
+        "android_client_info": {
+          "package_name": "com.mnashat_dev.saeid"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVrKTN3Gmhw1u7lQ3_dOS_R6v9gtloYuw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
