@@ -7,11 +7,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.mnashat_dev.saeid.R
 import com.mnashat_dev.saeid.auth.AuthActivity
 
-//import com.google.firebase.auth.FirebaseAuth
-//import com.google.firebase.database.DataSnapshot
-//import com.google.firebase.database.DatabaseError
-//import com.google.firebase.database.FirebaseDatabase
-//import com.google.firebase.database.ValueEventListener
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 
 class SplashActivity : AppCompatActivity() {
@@ -26,27 +26,23 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun determineTheActivityTONavigate() {
-//        val email = getEmail()
-//        if (email != null){
-//            Log.e("TAG" , "2 ")
-//            determineTheUserTONavigate(email)
-//        }
-//        else{
-//            Log.e("TAG" , "3 ")
-//            startActivity(Intent(this, AuthActivity::class.java))
-//            finish()
-//        }
+        val email = getEmail()
+        if (email != null){
+            startActivity(Intent(this, MainActivity::class.java))
+        }
+        else{
+            startActivity(Intent(this, AuthActivity::class.java))
+        }
 
-        startActivity(Intent(this, AuthActivity::class.java))
         finish()
 
     }
 
-//   private fun getEmail():String? {
-//      val user = FirebaseAuth.getInstance().currentUser
-//       return user?.email
-//
-//   }
+   private fun getEmail():String? {
+      val user = FirebaseAuth.getInstance().currentUser
+       return user?.email
+
+   }
 
 
 //    private fun getTypeUser(email: String?, callback: (String?) -> Unit) {
@@ -76,34 +72,7 @@ class SplashActivity : AppCompatActivity() {
 //    }
 //
 //
-//    private fun determineTheUserTONavigate(email: String?){
-//
-//        getTypeUser(email) { userType ->
-//
-//            if (userType != null) {
-//                when (userType) {
-//                    PatientType -> {
-//                        startActivity(Intent(this, PatientScreenActivity::class.java))
-//
-//                    }
-//                    CaregiverType -> {
-//                        startActivity(Intent(this, CaregiverScreenActivity::class.java))
-//
-//                    }
-//                    else -> {
-//                        startActivity(Intent(this, AdminScreenActivity::class.java))
-//                    }
-//                }
-//                finish()
-//
-//
-//            } else {
-//
-//                // user does not exist or there was an error
-//            }
-//        }
-//
-//    }
+
 
 
 
