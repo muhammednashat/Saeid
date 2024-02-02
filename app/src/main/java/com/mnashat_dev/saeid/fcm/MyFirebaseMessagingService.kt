@@ -25,16 +25,15 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
         Log.d(TAG, "sendRegistrationTokenToServer($token)")
     }
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        Log.d(TAG, "From: ${remoteMessage.from}")
+        Log.d("TAG", "From: ${remoteMessage.from}")
         remoteMessage.notification?.let {
-            // Handle the notification data
             showNotification(it.title, it.body)
         }
     }
     private fun showNotification(title: String?, body: String?) {
         // Use NotificationCompat to build a notification
         val notificationBuilder = NotificationCompat.Builder(this, "CHANNEL_ID")
-            .setSmallIcon(R.drawable.food)
+            .setSmallIcon(R.drawable.image)
             .setContentTitle(title)
             .setContentText(body)
             .setPriority(NotificationCompat.PRIORITY_HIGH)

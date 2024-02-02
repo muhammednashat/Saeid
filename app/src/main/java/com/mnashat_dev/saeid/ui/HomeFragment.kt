@@ -1,6 +1,7 @@
 package com.mnashat_dev.saeid.ui
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -17,9 +19,13 @@ import okhttp3.OkHttpClient
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
+import com.mnashat_dev.saeid.auth.AuthActivity
 import com.mnashat_dev.saeid.databinding.FragmentHomeBinding
+import com.mnashat_dev.saeid.util.SharedPreferencesManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -29,49 +35,20 @@ class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-
+    private lateinit var  sharedPreferencesManager : SharedPreferencesManager
+    private val firebaseAuth = FirebaseAuth.getInstance()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        getToken()
+        sharedPreferencesManager = SharedPreferencesManager(requireContext())
         askNotificationPermission()
-
-//        binding.food.setOnClickListener{
-//            lifecycleScope.launch {
-//                sendNotification("exC6lSA9TYuX4GBRHVy4LU:APA91bGkeQzN2FWc4WyWezKTajiwLrO_NROc2nDVJpnHGq2OFspLtfLoH90Z5SdfVHGbnZK8K86WLcjewBCuaYzfdb34mh05aoP7_ycSh6MhKa12ujaIH6x2l3bh5jUrOG7rYovb2V16")
-//            }
-//
-//        }
+        setUpClickingListener()
         return binding.root
     }
-
-private fun getToken(){
-    FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-        if (!task.isSuccessful) {
-            Log.w("TAG", "Fetching FCM registration token failed", task.exception)
-            return@OnCompleteListener
-        }
-        val token = task.result
-        Log.d("TAG2", token)
-    })
-}
-    private val requestPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission(),
-    ) { isGranted: Boolean ->
-        if (isGranted) {
-            Log.e("TAG", "1")
-        } else {
-            Log.e("TAG", "11")
-        }
-    }
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-    private suspend fun sendNotification(token: String) {
+    private suspend fun sendNotification(token: String , body: String) {
         val data = mapOf(
             "click_action" to "FLUTTER_NOTIFICATION_CLICK",
             "id" to "1",
@@ -82,12 +59,12 @@ private fun getToken(){
         val json = """
         {
             "notification": {
-                "title": "title",
-                "body": "body"
+                "title": "Saeid|ساعد",
+                "body": "$body"
             },
             "priority": "high",
             "data": ${toJsonString(data)},
-            "to": "emyIBashQ0CHxUEpkN34dH:APA91bGIcGf3qMVgBaIC0fCcaUkWVUGNsEVsj8HcHiVLaJyWT1E6leBE_vaSNAugLapwCMnJMY8iFqy_JmXVkrPIiSCRLT-yErx34Q6nqFrJCPqdHInY2wQYgDmCtYkfuLsT0X9fMwNG"
+            "to": "$token"
         }
     """.trimIndent()
 
@@ -108,6 +85,7 @@ private fun getToken(){
             }
 
             if (response.isSuccessful) {
+                Toast.makeText(requireContext(),"تم إرسال إشعار إلى المرافق" ,Toast.LENGTH_SHORT).show()
                 Log.e("TAG", "Yeh notification is sent")
             } else {
                 Log.e("TAG", "Error")
@@ -119,7 +97,55 @@ private fun getToken(){
     private fun toJsonString(data: Map<String, Any>): String {
         return Gson().toJson(data)
     }
+
+
+    private fun logout() {
+        firebaseAuth.signOut()
+        startActivity(
+            Intent(
+                requireActivity(),
+                AuthActivity::class.java
+            )
+        )
+        activity?.finish()
+    }
+    private fun setUpClickingListener() {
+        binding.logout.setOnClickListener{
+            logout()
+        }
+        binding.food.setOnClickListener{
+            lifecycleScope.launch {
+                sendNotification(sharedPreferencesManager.getString("token") , "اريد الطعام")
+            }
+        }
+        binding.water.setOnClickListener{
+            lifecycleScope.launch {
+                sendNotification(sharedPreferencesManager.getString("token") , "احتاج للماء")
+            }
+        }
+        binding.doctor.setOnClickListener{
+            lifecycleScope.launch {
+                sendNotification(sharedPreferencesManager.getString("token") , "اشعر بالمرض")
+            }
+        }
+        binding.getUp.setOnClickListener{
+            lifecycleScope.launch {
+                sendNotification(sharedPreferencesManager.getString("token") , "احتاج للنهوض")
+            }
+        }
+        binding.toilet.setOnClickListener{
+            lifecycleScope.launch {
+                sendNotification(sharedPreferencesManager.getString("token") , "اريد الذهاب الى دورة المياه")
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
     private fun askNotificationPermission() {
+        Log.e("TAG" , "askNotificationPermission")
         // This is only necessary for API level >= 33 (TIRAMISU)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.POST_NOTIFICATIONS) ==
@@ -138,4 +164,13 @@ private fun getToken(){
         }
     }
 
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            Log.e("TAG", "1")
+        } else {
+            Log.e("TAG", "11")
+        }
+    }
 }
